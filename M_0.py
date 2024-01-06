@@ -4,10 +4,10 @@ from python_tsp.heuristics import solve_tsp_local_search,solve_tsp_simulated_ann
 from python_tsp.exact import solve_tsp_dynamic_programming
 import tsp_solutions
 import pandas as pd
-
+'''
 tsp = tsp_solutions.tsp()
 
-
+'''
 
 def openfile(fname) :
     f = open('InputData/'+fname+'.json')
@@ -31,7 +31,7 @@ rn.insert(0,0)
 dis_mat.insert(0,rn)
 for i in range(1,len(dis_mat)) :
     dis_mat[i].insert(0,rn[i])
-print (dis_mat)
+#print (dis_mat)
 
 dis_mat = np.array(dis_mat)
 pm2,t = solve_tsp_simulated_annealing(dis_mat)
@@ -64,8 +64,8 @@ def travellingsalesman(c,tsp_g):
     travellingsalesman(adj_vertex,tsp_g)
 travellingsalesman(0,dis_mat)
 '''
-print (sp)
-print (cost)
+#print (sp)
+#print (cost)
 out = {"v0": {"path": []}}
 out['v0']["path"].append('r0')
 for i in sp[1:len(sp)] :
