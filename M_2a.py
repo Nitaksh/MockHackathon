@@ -21,7 +21,7 @@ def writefile(obj,fname) :
     f = open('MyOutput/'+fname+'.json','w')
     json.dump(obj,f)
 
-data = openfile('level1a')
+data = openfile('level2a')
 
 ord = {}
 dis_mat = []
@@ -35,7 +35,13 @@ rn.insert(0,0)
 dis_mat.insert(0,rn)
 for i in range(1,len(dis_mat)) :
     dis_mat[i].insert(0,rn[i])
-capacity = data['vehicles']['v0']['capacity']
+capacity = data['vehicles']
+largest = 0
+for i in capacity :
+    if data['vehicles'][i]['capacity']>largest :
+        vehicle = i
+        largest = data['vehicles'][i]['capacity']
+capacity = int(largest)
 
 paths = []
 while (ord!={}) :
@@ -47,17 +53,17 @@ while (ord!={}) :
         del ord[max(zip(ord.values(), ord.keys()))[1]]
     paths.append(path)
 print (paths)
-
+print (capacity)
 def get_mat(path) :
     req = copy.deepcopy(dis_mat)
     temp = []
     temp.append(req[0])
-    for i in range(1,21) :
+    for i in range(1,51) :
         if i not in path :
             continue 
         temp.append(req[i])
     indices_to_delete = []
-    for i in range(1,21) :
+    for i in range(1,51) :
         if i not in path :
             indices_to_delete.append(i)
     for i in range(len(temp)) :
@@ -76,9 +82,9 @@ def shortest_paths(paths) :
     costs = []
     for i in range(len(paths)) :
         p_mat = get_mat(paths[i])
-        print (p_mat)
+        #print (p_mat)
         res = calc_path(p_mat)
-        print (res)
+        #print (res)
         res[0][0] = "r0"
         res[0].append("r0")
         res_i = 1
@@ -88,8 +94,17 @@ def shortest_paths(paths) :
             res_i += 1
         p["path"+str(i+1)] = res[0]
         costs.append(res[1])
-    print (costs)
-    print (p)
+    #print (costs)
+    #print (p)
+    print (sum(costs))
     return [p,costs]
-output = {"v0" : shortest_paths(paths)[0]}
-writefile(output,"level1a_output")
+
+
+
+
+output = {str(vehicle) : shortest_paths(paths)[0]}
+for i in data['vehicles'] :
+    if i != vehicle :
+        output[i] = {}
+writefile(output,"level2a_output")
+

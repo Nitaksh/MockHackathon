@@ -41,10 +41,12 @@ paths = []
 while (ord!={}) :
     total_orders = 0
     path = []
-    while (ord!= {} and ord[max(zip(ord.values(), ord.keys()))[1]] + total_orders <= capacity) :
-        total_orders += ord[max(zip(ord.values(), ord.keys()))[1]]
-        path.append(max(zip(ord.values(), ord.keys()))[1])
-        del ord[max(zip(ord.values(), ord.keys()))[1]]
+    while (ord!= {} and ord[min(zip(ord.values(), ord.keys()))[1]] + total_orders <= capacity) :
+        total_orders += ord[min(zip(ord.values(), ord.keys()))[1]]
+        path.append(min(zip(ord.values(), ord.keys()))[1])
+        del ord[min(zip(ord.values(), ord.keys()))[1]]
+        print (ord)
+        print (total_orders)
     paths.append(path)
 #print (paths)
 
@@ -94,5 +96,3 @@ def shortest_paths(paths) :
     return [p,costs]
 output = {"v0" : shortest_paths(paths)[0]}
 writefile(output,"level1b_output")
-
-
