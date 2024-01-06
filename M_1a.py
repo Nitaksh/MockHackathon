@@ -46,7 +46,7 @@ while (ord!={}) :
         path.append(max(zip(ord.values(), ord.keys()))[1])
         del ord[max(zip(ord.values(), ord.keys()))[1]]
     paths.append(path)
-
+print (paths)
 
 def get_mat(path) :
     req = copy.deepcopy(dis_mat)
@@ -68,20 +68,28 @@ def calc_path(mat) :
     mat = np.array(mat)
     pm2,t = solve_tsp_simulated_annealing(mat)
     sp,cost = solve_tsp_local_search(
-    mat, x0=pm2, perturbation_scheme="ps5")
+    mat, x0=pm2, perturbation_scheme="ps3")
     return tuple((sp,cost)) 
 
 def shortest_paths(paths) :
     p = {}
     costs = []
     for i in range(len(paths)) :
-        res = calc_path(get_mat(paths[i]))
+        p_mat = get_mat(paths[i])
+        print (p_mat)
+        res = calc_path(p_mat)
+        print (res)
         res[0][0] = "r0"
         res[0].append("r0")
+        res_i = 1
         for j in range(1,len(res[0])-1) :
-            res[0][j] = "n"+str(paths[i][res[0][j]-1]-1)
+            paths[i].sort()
+            res[0][res_i] = "n"+str(paths[i][res[0][res_i]-1] - 1)
+            res_i += 1
         p["path"+str(i+1)] = res[0]
         costs.append(res[1])
+    print (costs)
+    print (p)
     return [p,costs]
 output = {"v0" : shortest_paths(paths)[0]}
 writefile(output,"level1a_output")
